@@ -26,35 +26,57 @@ public class MakeTwoArraysEqualByReversingSubarrays {
 //    }
 	
 //	Second Solution
+//	public boolean canBeEqual(int[] target, int[] arr) {
+//		//dictionary to maintain frequency count for arr
+//		Map<Integer, Integer> arrFreq = new HashMap<>();
+//		for(int num : arr) {
+//			arrFreq.put(num, arrFreq.getOrDefault(num, 0)+1);
+//		}
+//		//Dictionary to maintain frequency count for target
+//		Map<Integer, Integer> targetFreq = new HashMap<>();
+//		for(int num : target) {
+//			targetFreq.put(num, targetFreq.getOrDefault(num, 0)+1);
+//		}
+//		
+//		//number of distinct elements of the 2 arrays are not equal
+//		if(arrFreq.keySet().size()!= targetFreq.keySet().size()) {
+//			System.out.println("false");
+//			return false;
+//		}
+//		
+//		for(int num: arrFreq.keySet()) {
+//			//frequency for num differs
+//			if(targetFreq.getOrDefault(num, 0)!=arrFreq.get(num)) {
+//				System.out.println("false");
+//				return false;
+//			}
+//		}
+//		System.out.println("true");
+//		return true;
+//	}
+//	
+//	Third Solution
 	public boolean canBeEqual(int[] target, int[] arr) {
-		//dictionary to maintain frequency count for arr
+		//frequency count for arr
 		Map<Integer, Integer> arrFreq = new HashMap<>();
-		for(int num : arr) {
+		for(int num: arr) {
 			arrFreq.put(num, arrFreq.getOrDefault(num, 0)+1);
 		}
-		//Dictionary to maintain frequency count for target
-		Map<Integer, Integer> targetFreq = new HashMap<>();
-		for(int num : target) {
-			targetFreq.put(num, targetFreq.getOrDefault(num, 0)+1);
-		}
-		
-		//number of distinct elements of the 2 arrays are not equal
-		if(arrFreq.keySet().size()!= targetFreq.keySet().size()) {
-			System.out.println("false");
-			return false;
-		}
-		
-		for(int num: arrFreq.keySet()) {
-			//frequency for num differs
-			if(targetFreq.getOrDefault(num, 0)!=arrFreq.get(num)) {
+		for(int num: target) {
+			//if number does not apprear in target, then arrays are not equal
+			if(!arrFreq.containsKey(num)) {
 				System.out.println("false");
 				return false;
 			}
+			
+			//decrement the frequency count for num and 
+			//remove key if the count goes to 0
+			arrFreq.put(num, arrFreq.get(num)-1);
+			if(arrFreq.get(num) == 0) {
+				arrFreq.remove(num);
+			}
 		}
 		System.out.println("true");
-		return true;
+		return arrFreq.size() == 0;
 	}
-	
-//	Third Solution
-
 }
